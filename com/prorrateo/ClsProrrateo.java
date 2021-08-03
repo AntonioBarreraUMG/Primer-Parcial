@@ -24,20 +24,14 @@ public class ClsProrrateo {
     private static final int GASTO_PESO = 4;
     private static final int COSTO_UNIDAD = 5;
     private static final int COSTO_TOTAL = 6;
-    private final int MAX_FILAS = 3;
     private final int MAX_COLUMNAS = 7;
     
     private int filaActual = 0;
     
     public ClsProrrateo(int filas){
-        if (filas > MAX_FILAS){
-            throw(new IllegalArgumentException());
-        }
-        else{
-            prorrateo = new String[filas][MAX_COLUMNAS];
-            pesoProductos = new Double[filas];
-            gastos = new Double[5];
-        }
+        prorrateo = new String[filas][MAX_COLUMNAS];
+        pesoProductos = new Double[filas];
+        gastos = new Double[5];
     }
     
     public static void imprimirDecorado(){
@@ -145,7 +139,7 @@ public class ClsProrrateo {
     }
     
     public String agregaVendedorMatriz(ClsProducto producto){
-        if (filaActual >= MAX_FILAS){
+        if (filaActual >= prorrateo.length){
             return "Limite de filas alcanzado.";
         }
         else{

@@ -19,7 +19,7 @@ public class ClsGastos {
     private Double acarreo;
     private Double banco;
     
-    public void relectarInformacion(){
+    public void recolectarInformacion(){
         System.out.println("Seguro: ");
         setSeguro(Double.valueOf(getT().nextLine()));
         System.out.println("Flete: ");

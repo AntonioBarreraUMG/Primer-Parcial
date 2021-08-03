@@ -23,6 +23,7 @@ public class ClsProducto {
         setDescripcion(getT().nextLine());
         System.out.println("Ingrese la cantidad: ");
         setCantidad(getT().nextInt());
+        getT().nextLine();
         System.out.println("Ingrese el valor: ");
         setValor(Double.valueOf(getT().nextLine()));
         System.out.println("Ingrese el peso: ");
