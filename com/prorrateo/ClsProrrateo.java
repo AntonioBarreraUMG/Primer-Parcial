@@ -7,6 +7,8 @@ package com.prorrateo;
 
 import com.gastos.ClsGastos;
 import com.producto.ClsProducto;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  *
@@ -16,6 +18,7 @@ public class ClsProrrateo {
     private static String[][] prorrateo = new String[1][1];
     private static Double[] gastos = new Double[1];
     private static Double[] pesoProductos = new Double[1];
+    public static NumberFormat formatoCantidad = NumberFormat.getCurrencyInstance(new Locale("es","GT"));
     
     private static final int CANTIDAD = 0;
     private static final int DESCRIPCION = 1;
@@ -34,11 +37,21 @@ public class ClsProrrateo {
         gastos = new Double[5];
     }
     
+    public static String cambiarFormato(String cantidad){
+        Double nuevaCantidad = Double.parseDouble(cantidad);
+        return formatoCantidad.format(nuevaCantidad);
+    }
+    
     public static void imprimirDecorado(){
         for (int x = 0; x < prorrateo.length; x++) { 
             System.out.print("|");
             for (int y = 0; y < prorrateo[x].length; y++) {
-                System.out.print(prorrateo[x][y]);
+                if (y > 1){
+                    System.out.print(cambiarFormato(prorrateo[x][y]));
+                }
+                else{
+                    System.out.print(prorrateo[x][y]);
+                }
                 if (y != prorrateo[x].length - 1) {
                     System.out.print("\t");
                 }
@@ -55,20 +68,15 @@ public class ClsProrrateo {
         return total;
     }
     
-    public static Double totalGastoValor(){
+    public static Double sumarArreglo(int inicio){
         Double total = 0.0;
-        for (int i = 0; i < gastos.length; i+=2) {
+        for (int i = inicio; i < gastos.length; i+=2) {
             total += gastos[i];
         }
         return total;
     }
     
-    public static Double coeficienteGastos(){
-        return totalGastoValor()/valorTotal();
-    }
-    
-    public static void gastosValor(){
-        Double coeficiente = coeficienteGastos();
+    public static void gastosValor(Double coeficiente){
         for (int i = 0; i < prorrateo.length; i++) {
             prorrateo[i][GASTO_VALOR] = (Double.valueOf(prorrateo[i][VALOR])*coeficiente) + "";
         }
@@ -90,12 +98,7 @@ public class ClsProrrateo {
         return total;
     }
     
-    public static Double coeficienteGastosPeso(){
-        return totalGastoPeso()/pesoTotal();
-    }
-    
-    public static void gastosPeso(){
-        Double coeficiente = coeficienteGastosPeso();
+    public static void gastosPeso(Double coeficiente){
         for (int fila = 0; fila < prorrateo.length; fila++) {
             prorrateo[fila][GASTO_PESO] = (pesoProductos[fila]*coeficiente) + "";
         }
@@ -124,18 +127,42 @@ public class ClsProrrateo {
         return total;
     }
     
-    public static Double granTotal(){
-        return (valorTotal() + totalGastoValor() + totalGastoPeso());
-    }
-    
-    public static String comprobación(){
-        Double diferencia = Math.abs(totalCuadro() - granTotal());
+    public static String comprobacion(Double a, Double b){
+        Double diferencia = Math.abs(a - b);
         if (diferencia <= 0.20){
             return "El ejercicio se ha resuelto correctamenta.";
         }
         else {
             return "Hay un error en ejercicio, los totales no coinciden.";
         }
+    }
+    
+    public static void ejecutar(){
+        //Paso 1
+        Double valorTotal = valorTotal();
+        //Paso 2
+        Double totalGastoValor = sumarArreglo(0);
+        //Paso 3
+        Double coeficienteGasto = totalGastoValor/valorTotal;
+        //Paso 4
+        gastosValor(coeficienteGasto);
+        //Paso 5
+        Double pesoTotal = pesoTotal();
+        //Paso 6
+        Double totalGastoPeso = sumarArreglo(1);
+        //Paso 7
+        Double coeficienteGastoPeso = totalGastoPeso/pesoTotal;
+        //Paso 8
+        gastosPeso(coeficienteGastoPeso);
+        //Paso 9
+        calculoCostoUnitario();
+        calculoCostoTotal();
+        imprimirDecorado();
+        //Paso 10
+        Double totalCuadro = totalCuadro();
+        Double granTotal = valorTotal + totalGastoValor + totalGastoPeso;
+        String resultado = comprobacion(totalCuadro, granTotal);
+        System.out.println("El resultado es: " + resultado);
     }
     
     public String agregaVendedorMatriz(ClsProducto producto){

@@ -30,6 +30,6 @@ public class ClsPrincipal {
         
         gastos.recolectarInformacion();
         prorrateo.agregaGastos(gastos);
-        ClsProrrateo.imprimirDecorado();
+        ClsProrrateo.ejecutar();
     }
 }
