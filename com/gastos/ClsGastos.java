@@ -20,6 +20,7 @@ public class ClsGastos {
     private Double banco;
     
     public void recolectarInformacion(){
+        System.out.println("---Gastos generales---");
         System.out.println("Seguro: ");
         setSeguro(Double.valueOf(getT().nextLine()));
         System.out.println("Flete: ");
@@ -30,6 +31,7 @@ public class ClsGastos {
         setAcarreo(Double.valueOf(getT().nextLine()));
         System.out.println("Banco: ");
         setBanco(Double.valueOf(getT().nextLine()));
+        System.out.println("----------------------");
     }
 
     /**

@@ -20,12 +20,15 @@ public class ClsPrincipal {
         System.out.println("¿Cuantos productos desea agregar?");
         int num = t.nextInt();
         t.nextLine();
+        System.out.println("\n");
         ClsProrrateo prorrateo = new ClsProrrateo(num);
         ClsGastos gastos = new ClsGastos();
+        ClsProducto producto = new ClsProducto();
         for (int i = 0; i < num; i++) {
-            ClsProducto producto = new ClsProducto();
+            System.out.println("------Producto " + (i+1) + "------");
             producto.recolectarInformacion();
             prorrateo.agregaVendedorMatriz(producto);
+            System.out.println("----------------------\n");
         }
         
         gastos.recolectarInformacion();
