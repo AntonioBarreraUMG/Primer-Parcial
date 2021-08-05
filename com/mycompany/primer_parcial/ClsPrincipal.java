@@ -24,15 +24,24 @@ public class ClsPrincipal {
         ClsProrrateo prorrateo = new ClsProrrateo(num);
         ClsGastos gastos = new ClsGastos();
         ClsProducto producto = new ClsProducto();
-        for (int i = 0; i < num; i++) {
-            System.out.println("------Producto " + (i+1) + "------");
-            producto.recolectarInformacion();
-            prorrateo.agregaVendedorMatriz(producto);
-            System.out.println("----------------------\n");
+        
+        try {
+            for (int i = 0; i < num; i++) {
+                System.out.println("------Producto " + (i+1) + "------");
+                producto.recolectarInformacion();
+                prorrateo.agregaVendedorMatriz(producto);
+                System.out.println("----------------------\n");
+            }
+        } catch (NegativeArraySizeException e){
+            System.out.println("Porfavor, ingrese el tipo de dato que se le solicita.");
         }
         
-        gastos.recolectarInformacion();
-        prorrateo.agregaGastos(gastos);
-        ClsProrrateo.ejecutar();
+        try {
+            gastos.recolectarInformacion();
+            prorrateo.agregaGastos(gastos);
+            ClsProrrateo.ejecutar();
+        } catch (Exception e){
+            System.out.println("Algo ha fallado durane la ejecucion.");
+        }
     }
 }

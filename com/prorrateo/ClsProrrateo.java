@@ -43,8 +43,11 @@ public class ClsProrrateo {
     }
     
     public static void imprimirDecorado(){
-        System.out.println("\n--------------------------PRORRATEO DE FACTURA--------------------------");
-        System.out.println("Cantidad Descripcion Valor Gasto_Valor Gasto_Peso Costo_Unidad Costo_Total");
+        System.out.println("\n-------------------------------------------PRORRATEO"
+                        + " DE FACTURAS-------------------------------------------");
+        System.out.println("Cantidad\tDescripcion\tValor\t\tGasto_Valor\tGasto_Peso\tCosto_Unidad\tCosto_Total");
+        System.out.println("\n----------------------------------------------------"
+                        + "-------------------------------------------------------");
         for (int x = 0; x < prorrateo.length; x++) { 
             System.out.print("|");
             for (int y = 0; y < prorrateo[x].length; y++) {
@@ -60,6 +63,8 @@ public class ClsProrrateo {
             }
             System.out.println("|");
         }
+        System.out.println("\n----------------------------------------------------"
+                        + "-------------------------------------------------------");
     }
     
     public static Double obtenerValorTotal(){
@@ -144,27 +149,37 @@ public class ClsProrrateo {
     }
     
     public static void ejecutar(){
-        //Paso 1
+        //Paso 1: se multiplica el valor de cada unidad por el número de unidades.
         Double valorTotal = obtenerValorTotal();
-        //Paso 2
+        
+        //Paso 2: se suman los gastos que generaron en valor, para obtener el total del gasto al valor.
         Double totalGastoValor = obtenerSumaArreglo(0);
-        //Paso 3
+        
+        //Paso 3: se divide el total de gastos al valor entre el valor total de los materiales según su precio de factura.
         Double coeficienteGasto = obtenerCoeficiente(totalGastoValor,valorTotal);
-        //Paso 4
+        
+        //Paso 4: se multiplica el valor de cada unidad por el coeficiente de gastos al valor.
         llenarGastosValor(coeficienteGasto);
-        //Paso 5
+        
+        //Paso 5: se multiplica el peso de cada unidad por el número de unidades.
         Double pesoTotal = obtenerPesoTotal();
-        //Paso 6
+        
+        //Paso 6: se establecen los gastos que generaron el peso de los productos en la cual se obtiene al sumarlo.
         Double totalGastoPeso = obtenerSumaArreglo(1);
-        //Paso 7
+        
+        //Paso 7: se divide el total de gastos entre el peso total.
         Double coeficienteGastoPeso = obtenerCoeficiente(totalGastoPeso,pesoTotal);
-        //Paso 8
+        
+        //Paso 8: se multiplica el peso de cada unidad por el coeficiente del gasto al valor.
         llenarGastosPeso(coeficienteGastoPeso);
-        //Paso 9
+        
+        //Paso 9: se elabora un cuadro en donde se va a registrar el costo unitario y  el costo total.
         llenarCostoUnitario();
         llenarCostoTotal();
         imprimirDecorado();
-        //Paso 10
+        
+        //Paso 10: se suma el total según el precio de factura, el total de gastos al valor y el total de gastos al peso.
+        //El total debe de coincidir con el total del cuadro anterior.
         Double totalCuadro = obtenerTotalCuadro();
         Double granTotal = valorTotal + totalGastoValor + totalGastoPeso;
         String resultado = comprobacion(totalCuadro, granTotal);
